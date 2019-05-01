@@ -7,20 +7,21 @@
     </script>
 </head>
 <body>
-    <nav class="menu">
-        <ul>
-            <li><a href="/profile">Мой профиль</a></li>
-            <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
-            <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
-            <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
-        </ul>
-    </nav>
-    <div class="logo">
-        <p><a href="/"><img src="../../images/logo.png" title="Car Sharing"></a></p>
-    </div>
+<nav class="menu">
+    <ul>
+        <li><a href="/profile">Мой профиль</a></li>
+        <li sec:authorize="anonymous"><a href="/login">Войти</a></li>
+        <li sec:authorize="authenticated"><a href="/logout">Выйти</a></li>
+        <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
+    </ul>
+</nav>
+<div class="logo">
+    <p><a href="/"><img src="../../images/logo.png" title="Car Sharing"></a></p>
+</div>
 <div class="container">
     <div>
-        <form class="form-horizontal" th:object="${object}" th:action="@{/orders/edit}" onsubmit="return validateOrderForm(this.form)" method="post">
+        <form class="form-horizontal" th:object="${object}" th:action="@{/orders/edit}"
+              onsubmit="return validateOrderForm(this.form)" method="post">
             <input type="hidden" class="form-control" th:field="*{id}"/>
             <input type="hidden" class="form-control" th:attr="name='user'" th:value="*{user.id}"/>
             <input type="hidden" class="form-control" th:attr="name='car'" th:value="*{car.id}"/>
@@ -49,15 +50,16 @@
                 </tr>
                 <tr>
                     <td>Начало пользования:</td>
-                    <td >
+                    <td>
                         <input type="date" id="date" name="date" th:field="*{date}" onblur="validateDate()"/>
                         <span class="help" id="date_help"></span>
                     </td>
                 </tr>
                 <tr>
-                    <td >Количество дней:</td>
-                    <td >
-                        <input type="number" id="days" min="1" max="30" name="days" step="1" th:field="*{days}"  onblur="Result()"/>
+                    <td>Количество дней:</td>
+                    <td>
+                        <input type="number" id="days" min="1" max="30" name="days" step="1" th:field="*{days}"
+                               onblur="Result()"/>
                     </td>
                 </tr>
                 <tr>
@@ -68,7 +70,9 @@
                     <td th:text="${error}">Error</td>
                 </tr>
                 <tr>
-                    <td><button type="submit">Подтвердить</button></td>
+                    <td>
+                        <button type="submit">Подтвердить</button>
+                    </td>
                 </tr>
             </table>
 

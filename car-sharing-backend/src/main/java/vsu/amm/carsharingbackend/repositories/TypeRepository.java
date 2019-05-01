@@ -1,12 +1,15 @@
 package vsu.amm.carsharingbackend.repositories;
 
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
-import vsu.amm.carsharingbackend.model.Type;
+import vsu.amm.carsharingbackend.model.carinfo.Type;
+
+import java.util.Optional;
 
 @Repository
-public interface TypeRepository extends JpaRepository<Type, Integer> {
-    Type findById(int id);
-    Type findByNameIgnoreCase(String name);
+public interface TypeRepository extends PagingAndSortingRepository<Type, Long> {
+    Iterable<Type> findByOrderByName();
+
+    Optional<Type> findByNameIgnoreCase(String name);
 }

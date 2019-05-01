@@ -8,18 +8,19 @@ body {
 
 .logo {
 
-     text-align: center;
- }
+    text-align: center;
+}
 
-table{
+table {
     width: 100%;
     text-align: center;
 }
 
-ul{
+ul {
     width: 100%;
 }
-li{
+
+li {
     display: inline-block;
 }
 

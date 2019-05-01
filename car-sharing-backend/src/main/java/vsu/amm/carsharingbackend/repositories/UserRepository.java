@@ -1,11 +1,12 @@
 package vsu.amm.carsharingbackend.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
-import vsu.amm.carsharingbackend.model.User;
+import vsu.amm.carsharingbackend.model.userinfo.User;
+
+import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-	User findByEmailIgnoreCase(String email);
-	User findById(long id);
+public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+    Optional<User> findByEmailIgnoreCase(String email);
 }

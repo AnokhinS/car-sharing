@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Tax</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
 </head>
@@ -26,7 +26,7 @@
             <th>Оплата произведена</th>
             <th>Сумма</th>
         </tr>
-        <tr th:each ="object : ${list}">
+        <tr th:each="object : ${list}">
             <td th:utext="${object.id}">...</td>
             <td th:utext="${object.car.id}">...</td>
             <td th:utext="${object.date}">...</td>

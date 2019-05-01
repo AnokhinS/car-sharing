@@ -30,8 +30,10 @@
                     <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
                 </tr>
                 <tr>
-                    <td><button type="submit">Submit</button></td>
-                    <td> <a href="/admin/firms">К списку</a></td>
+                    <td>
+                        <button type="submit">Submit</button>
+                    </td>
+                    <td><a href="/admin/firms">К списку</a></td>
                 </tr>
             </table>
 

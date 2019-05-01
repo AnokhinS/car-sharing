@@ -16,39 +16,40 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	@Autowired
-	DataSource dataSource;
+    @Autowired
+    DataSource dataSource;
 
-	@Value("${spring.queries.users-query}")
-	private String usersQuery;
+    @Value("${spring.queries.users-query}")
+    private String usersQuery;
 
-	@Value("${spring.queries.roles-query}")
-	private String rolesQuery;
+    @Value("${spring.queries.roles-query}")
+    private String rolesQuery;
 
-	@Autowired
+    @Autowired
     PasswordEncoder psw;
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication().usersByUsernameQuery(usersQuery).authoritiesByUsernameQuery(rolesQuery)
-				.dataSource(dataSource).passwordEncoder(psw);
-	}
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.jdbcAuthentication().usersByUsernameQuery(usersQuery).authoritiesByUsernameQuery(rolesQuery)
+                .dataSource(dataSource).passwordEncoder(psw);
+    }
 
-	@SuppressWarnings("deprecation")
-	@Bean
-	public static NoOpPasswordEncoder passwordEncoder() {
-		return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
-	}
+    @SuppressWarnings("deprecation")
+    @Bean
+    public static NoOpPasswordEncoder passwordEncoder() {
+        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers("/login*","/registration*").anonymous()
-				.and().formLogin().loginPage("/login")
-				.failureUrl("/login?error=true").defaultSuccessUrl("/profile").usernameParameter("email")
-				.passwordParameter("password")	.and().logout()
-				.logoutSuccessUrl("/").and().exceptionHandling().accessDeniedPage("/access-denied");
+        http.csrf().disable();
 
-	}
+//				.authorizeRequests().antMatchers("/login*","/registration*").anonymous()
+//				.and().formLogin().loginPage("/login")
+//				.failureUrl("/login?error=true").defaultSuccessUrl("/profile").usernameParameter("email")
+//				.passwordParameter("password")	.and().logout()
+//				.logoutSuccessUrl("/").and().exceptionHandling().accessDeniedPage("/access-denied");
+    }
 
 }

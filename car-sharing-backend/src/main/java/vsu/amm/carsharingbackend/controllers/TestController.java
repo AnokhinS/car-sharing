@@ -17,7 +17,7 @@ public class TestController {
 
     @GetMapping
     public String addType(Model model) {
-        model.addAttribute("object",new Test());
+        model.addAttribute("object", new Test());
         return "test";
     }
 
@@ -32,9 +32,10 @@ public class TestController {
 }
 
 
-class Test{
+class Test {
     int i;
     LocalDate date;
+
     public int getI() {
         return i;
     }
@@ -42,6 +43,7 @@ class Test{
     public void setI(int i) {
         this.i = i;
     }
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     public LocalDate getDate() {
         return date;

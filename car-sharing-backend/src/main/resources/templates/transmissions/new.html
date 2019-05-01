@@ -16,26 +16,28 @@
         <li sec:authorize="anonymous"><a sec:authorize="anonymous" href="/registration">Регистрация</a></li>
     </ul>
 </nav>
-    <div>
-        <H2>Добавление типа коробки передач</H2>
-        <form class="form-horizontal" th:object="${object}" th:action="@{/admin/transmissions/add}" method="post">
-            <input type="hidden" class="form-control" th:field="*{id}"/>
-            <table>
-                <tr>
-                    <td th:text="${success}">Success</td>
-                </tr>
-                <tr>
-                    <td>Новый тип коробки передач:</td>
-                    <td><input type="text" th:field="*{name}" onblur="trim(this)"/></td>
-                    <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
-                </tr>
-                <tr>
-                    <td><button type="submit">Подтвердить</button></td>
-                    <td> <a href="/admin/transmissions">К списку</a></td>
-                </tr>
-            </table>
+<div>
+    <H2>Добавление типа коробки передач</H2>
+    <form class="form-horizontal" th:object="${object}" th:action="@{/admin/transmissions/add}" method="post">
+        <input type="hidden" class="form-control" th:field="*{id}"/>
+        <table>
+            <tr>
+                <td th:text="${success}">Success</td>
+            </tr>
+            <tr>
+                <td>Новый тип коробки передач:</td>
+                <td><input type="text" th:field="*{name}" onblur="trim(this)"/></td>
+                <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit">Подтвердить</button>
+                </td>
+                <td><a href="/admin/transmissions">К списку</a></td>
+            </tr>
+        </table>
 
-        </form>
-    </div>
+    </form>
+</div>
 </body>
 </html>

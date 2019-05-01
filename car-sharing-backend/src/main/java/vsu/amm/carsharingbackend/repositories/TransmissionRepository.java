@@ -1,12 +1,14 @@
 package vsu.amm.carsharingbackend.repositories;
 
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import vsu.amm.carsharingbackend.model.Transmission;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import vsu.amm.carsharingbackend.model.carinfo.Transmission;
 
-public interface TransmissionRepository extends JpaRepository<Transmission, Integer> {
-    Transmission findById(int id);
+import java.util.Optional;
 
-    Transmission findByNameIgnoreCase(String name);
+public interface TransmissionRepository extends PagingAndSortingRepository<Transmission, Long> {
+    Iterable<Transmission> findByOrderByName();
+
+    Optional<Transmission> findByNameIgnoreCase(String name);
 }
 

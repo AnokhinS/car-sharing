@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import vsu.amm.carsharingbackend.model.Car;
+import vsu.amm.carsharingbackend.model.carinfo.Car;
 import vsu.amm.carsharingbackend.services.CarService;
 import vsu.amm.carsharingbackend.services.FirmService;
 import vsu.amm.carsharingbackend.services.TransmissionService;
@@ -18,10 +18,10 @@ import javax.validation.Valid;
 @RequestMapping("/cars")
 
 public class CarController {
-     final CarService carService;
-     final FirmService firmService;
-     final TypeService typeService;
-     final TransmissionService transmissionService;
+    final CarService carService;
+    final FirmService firmService;
+    final TypeService typeService;
+    final TransmissionService transmissionService;
 
     public CarController(CarService carService, FirmService firmService, TypeService typeService, TransmissionService transmissionService) {
         this.carService = carService;
@@ -41,9 +41,9 @@ public class CarController {
     @GetMapping(value = "/new")
     public String addType(Model model) {
         model.addAttribute("object", new Car());
-        model.addAttribute("firms", firmService.findAll());
-        model.addAttribute("types", typeService.findAll());
-        model.addAttribute("transmissions", transmissionService.findAll());
+        model.addAttribute("firms", firmService.getAllOrdered());
+        model.addAttribute("types", typeService.getAllOrdered());
+        model.addAttribute("transmissions", transmissionService.getAllOrdered());
         return "cars/new";
     }
 
@@ -53,25 +53,26 @@ public class CarController {
             return "cars/new";
         }
         try {
-            carService.save(object);
+            carService.create(object);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            model.addAttribute("firms", firmService.findAll());
-            model.addAttribute("types", typeService.findAll());
-            model.addAttribute("transmissions", transmissionService.findAll());
+            model.addAttribute("firms", firmService.getAllOrdered());
+            model.addAttribute("types", typeService.getAllOrdered());
+            model.addAttribute("transmissions", transmissionService.getAllOrdered());
             br.rejectValue("number", "error.object", e.getMessage());
             return "cars/new";
         }
 
         return "redirect:/cars";
     }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") long id, Model model) {
-        model.addAttribute("object", carService.findById(id));
-        model.addAttribute("firms", firmService.findAll());
-        model.addAttribute("types", typeService.findAll());
-        model.addAttribute("transmissions", transmissionService.findAll());
+        model.addAttribute("object", carService.get(id));
+        model.addAttribute("firms", firmService.getAllOrdered());
+        model.addAttribute("types", typeService.getAllOrdered());
+        model.addAttribute("transmissions", transmissionService.getAllOrdered());
         return "cars/edit";
     }
 
@@ -81,21 +82,22 @@ public class CarController {
             return "cars/edit";
         }
         try {
-            carService.save(object);
+            carService.create(object);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            model.addAttribute("firms", firmService.findAll());
-            model.addAttribute("types", typeService.findAll());
-            model.addAttribute("transmissions", transmissionService.findAll());
+            model.addAttribute("firms", firmService.getAllOrdered());
+            model.addAttribute("types", typeService.getAllOrdered());
+            model.addAttribute("transmissions", transmissionService.getAllOrdered());
             br.rejectValue("number", "error.object", e.getMessage());
             return "cars/edit";
         }
         return "redirect:/cars";
     }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") long id, Model model) {
-        model.addAttribute("object", carService.findById(id));
+        model.addAttribute("object", carService.get(id));
         return "cars/delete";
     }
 
@@ -105,8 +107,8 @@ public class CarController {
         try {
             carService.delete(object);
         } catch (Exception e) {
-            model.addAttribute("object", carService.findById(object.getId()));
-            model.addAttribute("error","На данный автомобиль есть заказ. Альтернативы нет");
+            model.addAttribute("object", carService.get(object.getId()));
+            model.addAttribute("error", "На данный автомобиль есть заказ. Альтернативы нет");
             return "/cars/delete";
         }
 

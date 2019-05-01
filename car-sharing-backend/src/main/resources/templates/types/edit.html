@@ -21,7 +21,7 @@
 <div class="container">
     <h2>Редактирование </h2>
     <div>
-        <form class="form-horizontal" th:object="${object}" th:action="@{/admin/types/edit}" method="post">
+        <form class="form-horizontal" th:object="${object}" th:action="@{/admin/types/edit}" th:method="put">
             <input type="hidden" class="form-control" th:field="*{id}"/>
             <table>
                 <tr>
@@ -30,8 +30,10 @@
                     <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
                 </tr>
                 <tr>
-                    <td><button type="submit">Submit</button></td>
-                    <td> <a href="/admin/types">К списку</a></td>
+                    <td>
+                        <button type="submit">Submit</button>
+                    </td>
+                    <td><a href="/admin/types">К списку</a></td>
                 </tr>
             </table>
 

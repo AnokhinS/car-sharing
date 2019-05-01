@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import vsu.amm.carsharingbackend.model.Order;
-import vsu.amm.carsharingbackend.model.User;
+import vsu.amm.carsharingbackend.model.userinfo.User;
 import vsu.amm.carsharingbackend.services.CarService;
 import vsu.amm.carsharingbackend.services.OrderService;
 import vsu.amm.carsharingbackend.services.SumService;
@@ -36,10 +36,10 @@ public class OrderController {
     @GetMapping("admin/orders")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String list(Model model) {
-        List<Order> orders=orderService.findAll();
-        int [] sum=new int[orders.size()];
-        for (int i=0;i<orders.size();i++) {
-            sum[i]=orderService.getSum(orders.get(i).getId());
+        List<Order> orders = orderService.getAll();
+        int[] sum = new int[orders.size()];
+        for (int i = 0; i < orders.size(); i++) {
+            sum[i] = orderService.getSum(orders.get(i).getId());
         }
         model.addAttribute("list", orders);
         model.addAttribute("sum", sum);
@@ -47,14 +47,14 @@ public class OrderController {
     }
 
     @GetMapping("/profile/orders")
-    @Secured({"IS_AUTHENTICATED_FULLY","IS_AUTHENTICATED_REMEMBERED"})
+    @Secured({"IS_AUTHENTICATED_FULLY", "IS_AUTHENTICATED_REMEMBERED"})
     public String myOrders(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findByEmail(auth.getName());
-        List<Order> orders=orderService.findAllByUser(user);
-        int [] sum=new int[orders.size()];
-        for (int i=0;i<orders.size();i++) {
-            sum[i]=orderService.getSum(orders.get(i).getId());
+        User user = userService.getByEmail(auth.getName());
+        List<Order> orders = orderService.getAllByUser(user);
+        int[] sum = new int[orders.size()];
+        for (int i = 0; i < orders.size(); i++) {
+            sum[i] = orderService.getSum(orders.get(i).getId());
         }
         model.addAttribute("list", orders);
         model.addAttribute("sum", sum);
@@ -65,7 +65,7 @@ public class OrderController {
     @PreAuthorize("hasAuthority('USER')")
     public String addOrder(@PathVariable("id") long id, Model model) {
         model.addAttribute("object", new Order());
-        model.addAttribute("car", carService.findById(id));
+        model.addAttribute("car", carService.get(id));
         return "orders/new";
     }
 
@@ -75,22 +75,22 @@ public class OrderController {
     public String addOrder(@Valid @ModelAttribute("object") Order object, BindingResult br, Model model) {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            User user = userService.findByEmail(auth.getName());
-        object.setUser(user);
-        orderService.save(object);
-    } catch (Exception e) {
-        e.printStackTrace();
-        model.addAttribute("object", new Order());
-        model.addAttribute("car", carService.findById(object.getCar().getId()));
-        model.addAttribute("error","Нет свободных авто на выбранный период");
-        return "/orders/new";
-    }
+            User user = userService.getByEmail(auth.getName());
+            object.setUser(user);
+            orderService.save(object);
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("object", new Order());
+            model.addAttribute("car", carService.get(object.getCar().getId()));
+            model.addAttribute("error", "Нет свободных авто на выбранный период");
+            return "/orders/new";
+        }
         return "redirect:/cars";
     }
 
     @GetMapping("/orders/{id}/return_car")
     public String returnCar(@PathVariable("id") Long id, Model model) {
-        Order order=orderService.findById(id);
+        Order order = orderService.get(id);
         order.setReturned(LocalDate.now());
         try {
             orderService.save(order);
@@ -103,7 +103,7 @@ public class OrderController {
 
     @GetMapping("/orders/edit/{id}")
     public String edit(@PathVariable("id") Long id, Model model) {
-        Order object = orderService.findById(id);
+        Order object = orderService.get(id);
         model.addAttribute("object", object);
         return "orders/edit";
     }
@@ -116,7 +116,7 @@ public class OrderController {
         try {
             orderService.save(order);
         } catch (Exception e) {
-            model.addAttribute("error","Нет свободных авто на выбранный период");
+            model.addAttribute("error", "Нет свободных авто на выбранный период");
             return "orders/edit";
         }
         return "redirect:/profile/orders";
@@ -124,7 +124,7 @@ public class OrderController {
 
     @GetMapping("orders/delete/{id}")
     public String delete(@PathVariable("id") long id, Model model) {
-        model.addAttribute("object", orderService.findById(id));
+        model.addAttribute("object", orderService.get(id));
         return "orders/delete";
     }
 

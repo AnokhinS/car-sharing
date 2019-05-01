@@ -1,7 +1,9 @@
 package vsu.amm.carsharingbackend.services;
 
 import org.springframework.stereotype.Service;
-import vsu.amm.carsharingbackend.model.Car;
+import vsu.amm.carsharingbackend.exceptions.CarNumberAlreadyExistException;
+import vsu.amm.carsharingbackend.exceptions.ObjectNotFoundException;
+import vsu.amm.carsharingbackend.model.carinfo.Car;
 import vsu.amm.carsharingbackend.repositories.CarRepository;
 
 @Service
@@ -16,21 +18,37 @@ public class CarService {
         return repository.findAll();
     }
 
-    public Car findById(long id) {
-        return repository.findById(id);
+    public Car get(long id) {
+        return repository.findById(id).orElseThrow(ObjectNotFoundException::new);
     }
 
-    public void deleteById(long id){ repository.deleteById(id);}
-
-    public void delete(Car object) throws Exception {
-            repository.delete(object);
+    public Car getByNumber(String number) {
+        return repository.findByNumberIgnoreCase(number).orElseThrow(ObjectNotFoundException::new);
     }
 
-    public void save(Car object) throws Exception{
-        if (repository.findByNumber(object.getNumber())==null||repository.findByNumber(object.getNumber()).getId()==object.getId()) {
-            repository.save(object);
-            return;
+    private boolean numberExist(String number) {
+        try {
+            getByNumber(number);
+            return true;
+        } catch (ObjectNotFoundException e) {
+            return false;
         }
-        throw new Exception("Такой номер принадлежит другому автомобилю");
     }
+
+    public Car create(Car object) throws CarNumberAlreadyExistException {
+        if (numberExist(object.getNumber()))
+            throw new CarNumberAlreadyExistException();
+        return repository.save(object);
+    }
+
+
+    public Car update(Car object) {
+        get(object.getId());
+        return repository.save(object);
+    }
+
+    public void delete(Car object) {
+        repository.delete(get(object.getId()));
+    }
+
 }

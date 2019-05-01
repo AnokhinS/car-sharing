@@ -1,11 +1,12 @@
 package vsu.amm.carsharingbackend.services;
 
 import org.springframework.stereotype.Service;
+import vsu.amm.carsharingbackend.exceptions.ObjectNotFoundException;
 import vsu.amm.carsharingbackend.model.Sum;
 import vsu.amm.carsharingbackend.repositories.SumRepository;
 
 @Service
-public class SumService implements ToUpperCase{
+public class SumService {
     private SumRepository repository;
 
     public SumService(SumRepository repository) {
@@ -16,8 +17,8 @@ public class SumService implements ToUpperCase{
         return repository.findAll();
     }
 
-    public Sum findById(int id) {
-        return repository.findById(id);
+    public Sum findById(long id) {
+        return repository.findById(id).orElseThrow(ObjectNotFoundException::new);
     }
 
     public void delete(Sum object) {
@@ -25,6 +26,6 @@ public class SumService implements ToUpperCase{
     }
 
     public void save(Sum object) throws Exception {
-            repository.save(object);
+        repository.save(object);
     }
 }

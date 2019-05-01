@@ -1,15 +1,13 @@
-
-
 function validateName() {
-    var name=document.getElementById("name").value;
-    var help=document.getElementById("name_help");
+    var name = document.getElementById("name").value;
+    var help = document.getElementById("name_help");
 
-    if(name.length<2||name.length>15){
-        help.innerHTML="Длина имени должна быть 2...15 символов";
+    if (name.length < 2 || name.length > 15) {
+        help.innerHTML = "Длина имени должна быть 2...15 символов";
         return false;
     }
     else {
-        help.innerHTML="";
+        help.innerHTML = "";
 
         return true;
     }
@@ -18,15 +16,15 @@ function validateName() {
 
 function validatePhone() {
     var regex = new RegExp("^(\\+7|8)\\d{10}$");
-    var value=document.getElementById("phone").value;
-    var help=document.getElementById("phone_help");
+    var value = document.getElementById("phone").value;
+    var help = document.getElementById("phone_help");
 
-    if(regex.exec(value)==null){
-        help.innerHTML="Формат +7XXXXXXXXXX или 8XXXXXXXXXX";
+    if (regex.exec(value) == null) {
+        help.innerHTML = "Формат +7XXXXXXXXXX или 8XXXXXXXXXX";
         return false;
     }
     else {
-        help.innerHTML="";
+        help.innerHTML = "";
 
         return true;
     }
@@ -35,38 +33,37 @@ function validatePhone() {
 
 
 function validatePassword() {
-    var password=document.getElementById("password").value;
-    var help=document.getElementById("password_help");
+    var password = document.getElementById("password").value;
+    var help = document.getElementById("password_help");
 
-    if(password.length<6||password.length>20){
-        help.innerHTML="Длина пароля должна быть 6...20 символов";
+    if (password.length < 6 || password.length > 20) {
+        help.innerHTML = "Длина пароля должна быть 6...20 символов";
         return false;
     } else {
-        help.innerHTML="";
+        help.innerHTML = "";
         return true;
     }
 }
 
 
 function confirmPassword() {
-    var password=document.getElementById("password").value;
-    var password2=document.getElementById("password2").value;
-    var help=document.getElementById("password_help2");
+    var password = document.getElementById("password").value;
+    var password2 = document.getElementById("password2").value;
+    var help = document.getElementById("password_help2");
 
-    if(password!=password2){
-        help.innerHTML="Пароли должны совпадать";
+    if (password != password2) {
+        help.innerHTML = "Пароли должны совпадать";
         return false;
     } else {
-        help.innerHTML="";
+        help.innerHTML = "";
         return true;
     }
 }
 
 
-
 function validateRegForm(form) {
 
-    if(validateName()&&validatePassword()&&validatePhone()&&confirmPassword()) {
+    if (validateName() && validatePassword() && validatePhone() && confirmPassword()) {
         return true;
     }
     return false;

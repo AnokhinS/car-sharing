@@ -17,7 +17,8 @@
 <div class="container">
     <h2>Удаление типа коробки передач</h2>
     <div>
-        <form class="form-horizontal" th:object="${object}" th:action="@{/admin/transmissions/delete}" th:method="delete">
+        <form class="form-horizontal" th:object="${object}" th:action="@{/admin/transmissions/delete}"
+              th:method="delete">
             <input type="hidden" class="form-control" th:field="*{id}"/>
             <table>
                 <tr>
@@ -25,7 +26,9 @@
                     <td><p th:utext="*{name}"></p></td>
                 </tr>
                 <tr>
-                    <td><button type="submit">Подтвердить</button></td>
+                    <td>
+                        <button type="submit">Подтвердить</button>
+                    </td>
                 </tr>
             </table>
 

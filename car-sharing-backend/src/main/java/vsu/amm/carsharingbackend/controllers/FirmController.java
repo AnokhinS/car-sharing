@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import vsu.amm.carsharingbackend.model.Firm;
+import vsu.amm.carsharingbackend.model.carinfo.Firm;
 import vsu.amm.carsharingbackend.services.FirmService;
 
 import javax.validation.Valid;
@@ -24,7 +24,7 @@ public class FirmController {
 
     @GetMapping
     public String list(Model model) {
-        model.addAttribute("list", service.findAll());
+        model.addAttribute("list", service.getAllOrdered());
         return "firms/list";
     }
 
@@ -35,13 +35,13 @@ public class FirmController {
     }
 
 
-    @PostMapping("add")
+    @PostMapping
     public String addType(@Valid @ModelAttribute("object") Firm object, BindingResult br) {
         if (br.hasErrors()) {
             return "firms/new";
         }
         try {
-            service.save(object);
+            service.create(object);
         } catch (Exception e) {
             br.rejectValue("name", "error.name", e.getMessage());
             return "firms/new";
@@ -51,17 +51,17 @@ public class FirmController {
 
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") int id, Model model) {
-        model.addAttribute("object", service.findById(id));
+        model.addAttribute("object", service.get(id));
         return "firms/edit";
     }
 
-    @PostMapping("/edit")
+    @PutMapping
     public String edit(@Valid @ModelAttribute("object") Firm object, BindingResult br) {
         if (br.hasErrors()) {
             return "firms/edit";
         }
         try {
-            service.save(object);
+            service.create(object);
         } catch (Exception e) {
             br.rejectValue("name", "error.name", e.getMessage());
             return "firms/edit";
@@ -71,11 +71,11 @@ public class FirmController {
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") int id, Model model) {
-        model.addAttribute("object", service.findById(id));
+        model.addAttribute("object", service.get(id));
         return "firms/delete";
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public String delete(Firm object) {
         service.delete(object);
         return "redirect:/admin/firms";

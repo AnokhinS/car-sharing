@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Transmissions</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
 </head>
@@ -24,7 +24,7 @@
             <th>Идентификатор</th>
             <th>Название</th>
         </tr>
-        <tr th:each ="object : ${list}">
+        <tr th:each="object : ${list}">
             <td th:utext="${object.id}">...</td>
             <td th:utext="${object.name}">...</td>
             <td><a th:href="@{/admin/transmissions/edit/{id}(id=${object.id})}">Изменить</a></td>

@@ -1,4 +1,3 @@
-
 function trim(inputObject) {
-    inputObject.value=inputObject.value.trim();
+    inputObject.value = inputObject.value.trim();
 }

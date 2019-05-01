@@ -7,7 +7,7 @@
     <script language="JavaScript">
         function selectAll(source) {
             checkboxes = document.getElementsByName('cars');
-            for(var i=0, n=checkboxes.length;i<n;i++) {
+            for (var i = 0, n = checkboxes.length; i < n; i++) {
                 checkboxes[i].checked = source.checked;
             }
         }
@@ -27,7 +27,7 @@
     <h2>Страхование автомобилей</h2>
     <h3>Выбирете автомобили, которые необходимо застраховать:</h3>
     <div>
-        <form class="form-horizontal"  th:action="@{/admin/tax/add}" method="post">
+        <form class="form-horizontal" th:action="@{/admin/tax/add}" method="post">
             <table>
                 <tr>
                     <td><input type="checkbox" onclick="selectAll(this)">Выбрать все</input></td>
@@ -36,7 +36,9 @@
                     <td><input type="checkbox" name="cars" th:value="${car.id}" th:text="${car.toString()}"/></td>
                 </tr>
                 <tr>
-                    <td><button type="submit">Подтвердить</button></td>
+                    <td>
+                        <button type="submit">Подтвердить</button>
+                    </td>
                 </tr>
             </table>
 

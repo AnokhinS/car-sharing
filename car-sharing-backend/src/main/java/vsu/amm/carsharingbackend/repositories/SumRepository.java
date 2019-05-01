@@ -6,6 +6,5 @@ import vsu.amm.carsharingbackend.model.Sum;
 
 @Repository
 public interface SumRepository extends JpaRepository<Sum, Long> {
-    Sum findById(long id);
 }
 

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import vsu.amm.carsharingbackend.model.User;
+import vsu.amm.carsharingbackend.model.userinfo.User;
 import vsu.amm.carsharingbackend.services.OrderService;
 import vsu.amm.carsharingbackend.services.UserService;
 
@@ -24,7 +24,7 @@ import javax.validation.Valid;
 @Controller
 public class LoginController {
 
-	private UserService userService;
+    private UserService userService;
     private OrderService orderService;
 
     public LoginController(UserService userService, OrderService orderService) {
@@ -35,23 +35,23 @@ public class LoginController {
     @GetMapping("/")
     public String index() {
         return "/index";
-	}
+    }
 
-	@GetMapping("/login")
-	public String login() {
-		return "security/login";
-	}
+    @GetMapping("/login")
+    public String login() {
+        return "security/login";
+    }
 
     @GetMapping("/access-denied")
     public String accessDeniedPage() {
         return "security/access-denied";
     }
 
-	@GetMapping("/registration")
-	public String registration(Model model) {
-		model.addAttribute("user", new User());
-		return "security/registration";
-	}
+    @GetMapping("/registration")
+    public String registration(Model model) {
+        model.addAttribute("user", new User());
+        return "security/registration";
+    }
 
     @PostMapping("/newUser")
     public String createNewAccount(@Valid User user, BindingResult br) {
@@ -70,29 +70,27 @@ public class LoginController {
 
 
     @GetMapping("/logout")
-    public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null){
+        if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         return "redirect:/login?logout";
     }
 
-	@GetMapping("/profile")
-	@Secured({"IS_AUTHENTICATED_FULLY","IS_AUTHENTICATED_REMEMBERED"})
-	public String profile(Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = userService.findByEmail(auth.getName());
-		model.addAttribute("user", user);
-		return "profile/index";
-	}
-
-
+    @GetMapping("/profile")
+    @Secured({"IS_AUTHENTICATED_FULLY", "IS_AUTHENTICATED_REMEMBERED"})
+    public String profile(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.getByEmail(auth.getName());
+        model.addAttribute("user", user);
+        return "profile/index";
+    }
 
 
     @GetMapping("/profile/edit/{id}")
     public String edit(@PathVariable("id") Long id, Model model) {
-        User user = userService.findById(id);
+        User user = userService.get(id);
         System.out.println(user);
         model.addAttribute("user", user);
         return "users/edit";

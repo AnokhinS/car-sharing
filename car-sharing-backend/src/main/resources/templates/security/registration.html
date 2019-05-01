@@ -23,13 +23,14 @@
 <div class="container">
     <h2>Новый пользователь</h2>
     <div>
-        <form class="form-horizontal" th:object="${user}" th:action="@{/newUser}" onsubmit="return validateRegForm(this.form)" method="post">
+        <form class="form-horizontal" th:object="${user}" th:action="@{/newUser}"
+              onsubmit="return validateRegForm(this.form)" method="post">
             <input type="hidden" class="form-control" th:field="*{id}"/>
             <table>
                 <tr>
                     <td>Имя:</td>
                     <td>
-                        <input type="text" id="name" onblur="trim(this)" th:field="*{name}" />
+                        <input type="text" id="name" onblur="trim(this)" th:field="*{name}"/>
                         <span class="help" id="name_help"></span>
                     </td>
                     <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
@@ -37,7 +38,7 @@
                 <tr>
                     <td>Телефон:</td>
                     <td>
-                        <input type="text" id="phone" onblur="validatePhone()" th:field="*{phone}" />
+                        <input type="text" id="phone" onblur="validatePhone()" th:field="*{phone}"/>
                         <span class="help" id="phone_help"></span>
                     </td>
                     <td th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">phone Error</td>
@@ -50,7 +51,7 @@
                 <tr>
                     <td>Пароль:</td>
                     <td>
-                        <input type="password" id="password" onblur="validatePassword()" th:field="*{password}" />
+                        <input type="password" id="password" onblur="validatePassword()" th:field="*{password}"/>
                         <span class="help" id="password_help"></span>
                     </td>
 
@@ -64,7 +65,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><button type="submit">Подтвердить</button></td>
+                    <td>
+                        <button type="submit">Подтвердить</button>
+                    </td>
                 </tr>
             </table>
 
